@@ -1,0 +1,99 @@
+{% extends 'base_content.html' %}
+{% load static %}
+{% block top-css %}
+
+
+    <style type="text/css">
+
+        /*覆盖所有的层叠样式表，不然会出现所有的a标签都会变成橙色*/
+        a{
+            color: #337ab7;
+        }
+
+    </style>
+
+{% endblock top-css %}
+
+{% block body-content %}
+<section>
+    <div class="container-fluid">
+        <div class="row ">
+            <!--左侧导航结束-->
+            <!----------------------------------------------------------------------------------------------------->
+            <!--右侧内容开始-->
+            <div class="col-xs-10">
+                <br/>
+                <ol class="breadcrumb">
+                    <li><a href="/user/index"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+                    <li><a href="/news/luntan">论坛</a></li>
+                    <li class="active">大棚论坛-内容详情</li>
+                </ol>
+
+                <div class="con" style="margin-left: 15%">
+                    <h3 style="text-align: center;margin-bottom: 10%">{{ news.title }}</h3>
+                    {{ news.news_content|safe }}
+                </div>
+                <!--评论开始-->
+
+{% comment %}                {% with  comments.count as total_comments %}
+                    <h2>
+                        {{ total_comments }} comment{{ total_comments|pluralize }}
+                    </h2>
+
+                {% endwith %}{% endcomment %}
+                <div style="margin-left: 20%;margin-top: 30px">
+                    <form action="/news/detail/{{ news.id }}" method="post">
+                        <textarea class="comment" placeholder="请添加评论" style="width: 95%;" name="content"></textarea>
+                        <button type="submit">评论</button>
+                        {% csrf_token %}
+                    </form>
+
+                    {% for comment in comments %}
+                        <div class="comment" style="margin-top: 1px;">
+                        <p>___________________________________________________________________________</p>
+                            {{ comment.user }}&nbsp;评论说：
+                            <p>{{ comment.comment_content|linebreaks }}</p>
+                         <p class="info" style="margin-left: 72%">
+{#                                评论{{ forloop.counter }}计数#}
+                                {{ comment.create_time }}
+                            </p>
+                        </div>
+                    {% empty %}
+                        <p>There are no comment yet.</p>
+                    {% endfor %}
+                </div>
+
+
+                  </div>
+            <!--右侧内容结束-->
+        </div>
+    </div>
+</section>
+{% endblock body-content %}
+
+{% block bottom-script %}
+              <!-- Swiper JS -->
+    <script src="{% static 'js/swiper.js' %}"></script>
+
+    <!-- Initialize Swiper -->
+            <script>
+                var swiper = new Swiper('.swiper-container', {
+                    parallax: true,
+                    pagination: '.swiper-pagination',
+                    nextButton: '.swiper-button-next',
+                    prevButton: '.swiper-button-prev',
+                    paginationClickable: true,
+                    spaceBetween: 30,
+                    centeredSlides: true,
+                    autoplay: 2500,
+                    autoplayDisableOnInteraction: false
+                });
+
+                    $("div .menu-first:eq(2)").addClass("menu-first-active")
+                $("div .menu-first:eq(2)").attr('aria-expanded','true')
+                $("div .menu-first:eq(2)").remove('collapsed')
+                $("div .menu-first:eq(2)>div").addClass('in')
+
+            </script>
+
+{% endblock bottom-script %}

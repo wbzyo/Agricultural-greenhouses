@@ -1,0 +1,62 @@
+{% extends 'base_content.html' %}
+{% block body-content %}
+<section>
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-xs-10">
+                 <br/>
+                <ol class="breadcrumb">
+                    <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+                    <li class="active">大棚管理-设备状态</li>
+                </ol>
+               <table class="table table-bordered"style="width: 80%;margin-top: 6%;margin-left: 10%" >
+                        <thead>
+                        <tr>
+                            <th>传感器</th>
+                            <th>监测名称</th>
+                            <th>最近检测值</th>
+                            <th>时间</th>
+                        </tr>
+                        </thead>
+                   {% for data in datas %}
+                        <tbody>
+                        <tr>
+                            <th scope="row">{{ data.status_name }}</th>
+                            <td>板载温度</td>
+                            <td>{{ data.temprature }}</td>
+                            <td>{{ data.create_time }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ data.status_name }}</th>
+                            <td>电压</td>
+                               <td>{{ data.vol }}</td>
+                               <td>{{ data.create_time }}</td>
+                           </tr>
+                        <tr>
+                            <th scope="row">{{ data.status_name }}</th>
+                            <td>电量</td>
+                             <td>{{ data.power }}</td>
+                             <td>{{ data.create_time }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ data.status_name }}</th>
+                            <td>放置位置</td>
+                              <td>{{ data.place }}</td>
+                              <td>{{ data.create_time }}</td>
+                         </tr>
+                        </tbody>
+                   {% endfor %}
+                    </table>
+            </div>
+            <!--右侧内容结束-->
+        </div>
+    </div>
+</section>
+    <script>
+                        $("div .menu-first:eq(3)").addClass("menu-first-active")
+                $("div .menu-first:eq(3)").attr('aria-expanded','true')
+                $("div .menu-first:eq(3)").remove('collapsed')
+                $("div .menu-first:eq(3)>div").addClass('in')
+    </script>
+{% endblock body-content %}
+

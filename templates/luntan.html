@@ -1,0 +1,302 @@
+{% extends 'base_content.html' %}
+{% load static %}
+{% block top-css %}
+
+    <!--评论的引用资源-->
+    <link rel="mask-icon" sizes="any" href="//img.t.sinajs.cn/t6/style/images/apple/wbfont.svg" color="black"/>
+
+    <link href="//img.t.sinajs.cn/t6/style/css/module/base/frame.css?version=3cccf158e973a877" type="text/css"
+          rel="stylesheet" charset="utf-8"/>
+    <link href="//img.t.sinajs.cn/t6/style/css/pages/growth/login_v5.css?version=3cccf158e973a877" type="text/css"
+          rel="stylesheet" charset="utf-8">
+
+
+    <style type="text/css">
+        .subinfo_box {
+            margin-right: 10px;
+        }
+        .UG_list_b{
+            margin-top: 20px;
+            margin-left: 10%;
+            width: 80%;
+        }
+        /*覆盖所有的层叠样式表，不然会出现所有的a标签都会变成橙色*/
+
+        a{
+            color: #337ab7;
+        }
+
+        .text{
+            margin-top: 15px;
+        }
+    </style>
+
+    <!--end-->
+    <link rel="stylesheet" href="{% static 'css/swiper.min.css' %}">
+
+    <!--{#    滚动的css#}-->
+    <style>
+    .swiper{
+        position: relative;
+        width: 90%;
+        height: 200px;
+        margin-top: 30px;
+        margin-left: 10%;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+        background: #000;
+    }
+       .swiper-slide {
+        font-size: 18px;
+        color: #fff;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 40px 60px;
+        /* Center slide text vertically */
+
+    }
+    .parallax-bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        -webkit-background-size: cover;
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
+
+        .swiper-slide .title {
+      font-size: 25px;
+      font-weight: 300;
+    }
+    .swiper-slide .subtitle {
+      font-size: 18px;
+    }
+    .swiper-slide .text {
+      font-size: 14px;
+      max-width: 400px;
+      line-height: 1.3;
+    }
+    </style>
+{% endblock top-css %}
+
+{% block body-content %}
+<section>
+    <div class="container-fluid">
+        <div class="row ">
+            <!----------------------------------------------------------------------------------------------------->
+            <!--右侧内容开始-->
+            <div class="col-xs-10">
+                <ol class="breadcrumb">
+                    <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+                    <li class="active">大棚论坛-热门内容</li>
+                </ol>
+
+                <!-- Swiper -->
+                <div class=" center swiper" >
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+
+                            {% for new_swiper in news_swiper %}
+                            <div class="swiper-slide">
+                                <div class="parallax-bg" style="background-image:url({{ new_swiper.news_image.url }})"
+                                     data-swiper-parallax="-23%"></div>
+                                <div class="title" data-swiper-parallax="-300">{{ new_swiper.title }}</div>
+
+                                <div class="text" data-swiper-parallax="-100">
+                                    <a href="{% url 'news:detail' new_swiper.news_id %}" style="color: white">{{ new_swiper.news_info }}
+                                      </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            <div class="swiper-slide">
+                                <div class="parallax-bg" style="background-image:url({% static 'img/枸杞.jpeg' %})"
+                                     data-swiper-parallax="-23%"></div>
+                                <div class="title" data-swiper-parallax="-300">银川海关助推宁夏枸杞走红欧美</div>
+
+                                <div class="text" data-swiper-parallax="-100">
+                                    <a href="#" style="color: white">近日记者从银川海关相关部门获悉，2019年1-5月宁夏枸杞出口量1712吨，同比增长35.9%。
+                                      </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="parallax-bg" style="background-image:url({% static 'img/2.jpg' %})"
+                                     data-swiper-parallax="-23%"></div>
+                                <div class="title" data-swiper-parallax="-300">乡村振兴，生态宜居是关键</div>
+
+                                <div class="text" data-swiper-parallax="-100">
+                                    <a href="#" style="color: white">良好生态环境是农村最大优势和宝贵财富。必须尊重自然、顺应自然、保护自然，推动乡村自然资本加快增值，
+                                        实现百姓富、生态美的统一。畜禽粪污资源化利用，果菜茶有机肥替代化肥，
+                                        东北地区秸秆处理，农膜回收，以长江为重点的水生生物保护行动……
+                                        </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+
+                                <div class="parallax-bg" style="background-image:url({% static 'img/3.jpg' %})"
+                                     data-swiper-parallax="-23%"></div>
+                                <div class="title" data-swiper-parallax="-300">安徽推进油菜产业绿色高效发展</div>
+
+                                <div class="text" data-swiper-parallax="-100">
+                                    <a href="#" style="color: white">日前，由中国农科院油料所联合安徽省农业农村厅主办、望江县人民政府和安徽省农科院承办的油菜
+                                        绿色高效发展现场观摩会在安徽省望江县举办。
+                                       </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="parallax-bg" style="background-image:url({% static 'img/2.jpg' %})"
+                                     data-swiper-parallax="-23%"></div>
+                                <div class="title" data-swiper-parallax="-300">河北山海关大樱桃产值达5亿元</div>
+
+                                <div class="text" data-swiper-parallax="-100">
+                                    <a href="#" style="color: white">“山海关大樱桃成为国家地理标志商标，荣获‘中国大樱桃之乡’。”日前，由河北省农业农村厅、
+                                        秦皇岛市政府主办的“第十四届中国·山海关大樱桃节暨秦皇岛第二届农业招商推介会”在山海关区举办。
+                                        秦皇岛市长张瑞书介绍，该区樱桃种植达3万亩，产值5亿元以上，是全国大樱桃品质最好的产区之一。
+                                       </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+
+                <!--comment评论-->
+                <div>
+
+                    <div class="UG_list_b">
+                        <div class="pic W_piccut_v">
+                            <img src="https://www.nyzy.com/UploadFiles/2022-11/cjadmin/2022112314041099747.jpg" alt="">
+                        </div>
+                        <div class="list_des">
+                            <h3 class="list_title_s">
+                                <div>【<a target="_blank" render="ext"
+                                         suda-uatrack="key=topic_click&amp;value=click_topic" class="a_topic"
+                                         extra-data="type=topic"
+                                         href="//s.weibo.com/weibo?q=%23%E5%B1%A0%E5%91%A6%E5%91%A6%E5%9B%A2%E9%98%9F%E9%9D%92%E8%92%BF%E7%B4%A0%E6%96%B0%E7%AA%81%E7%A0%B4%23&amp;from=default">#塑造更高效的农产品产业链体系#</a>：传统农产品产业链主要面临四大挑战<img
+                                        class="W_img_face" render="ext"
+                                        src="//img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6d/2018new_zhongguozan_org.png"
+                                        title="[中国赞]" alt="[中国赞]" type="face">】与户均约2800亩的美国农场截然不同，中国农业的主体仍然是户均耕地约10亩的小农户。正因如此，中国农业的产业链条高度依赖各级批发市场以及数以千万计的小商小贩，
+                                    ​​​​...<a target="_blank" href="//weibo.com/1638782947/HzhnZ3ArX"
+                                              class="WB_text_opt"
+                                              suda-uatrack="key=original_blog_unfold&amp;value=click_unfold:4384083150855101:1638782947"
+                                              action-type="fl_unfold"
+                                              action-data="mid=4384083150855101&amp;is_settop&amp;is_sethot&amp;is_setfanstop&amp;is_setyoudao">展开全文<i
+                                            class="W_ficon ficon_arrow_down">c</i></a></div>
+                            </h3>
+                            <div class="subinfo_box clearfix">
+                                <a href="/finance?from=feed&amp;loc=nickname" target="_blank"><span
+                                        class="subinfo_face "><img
+                                        src="https://tva1.sinaimg.cn/crop.0.0.180.180.50/61add7e3jw8elz207ln0lj2050050aad.jpg"
+                                        width="20"
+                                        height="20" alt=""></span></a>
+                                <a href="/finance?from=feed&amp;loc=nickname" target="_blank"><span
+                                        class="subinfo S_txt2">旺财</span></a>
+                                <span class="subinfo S_txt2">今天 08:12</span>
+                                <span class="subinfo_rgt S_txt2"><em
+                                        class="W_ficon ficon_praised S_ficon W_f16">ñ</em><em>62</em></span>
+                                <span class="rgt_line W_fr"></span>
+                                <span class="subinfo_rgt S_txt2"><em
+                                        class="W_ficon ficon_repeat S_ficon W_f16"></em><em>403</em></span>
+                                <span class="rgt_line W_fr"></span>
+                                <span class="subinfo_rgt S_txt2"><em
+                                        class="W_ficon ficon_forward S_ficon W_f16"></em><em>686</em></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% for context in news_info %}
+                        <div class="UG_list_b">
+                            <div class="pic W_piccut_v">
+                                <img src="{{ context.news_image.url }}"
+                                     alt="">
+                            </div>
+                            <div class="list_des">
+                                <h3 class="list_title_s">
+                                    <div><a  render="ext"
+                                            suda-uatrack="key=topic_click&amp;value=click_topic" class="a_topic"
+                                            extra-data="type=topic"
+                                            href="{% url 'news:detail' context.news_id %}">#{{ context.title }}#</a>
+                                        {{ context.news_info|safe }}
+                                    </div>
+                                </h3>
+                                <div class="subinfo_box clearfix">
+                                    <a href="#" target="_blank"><span
+                                            class="subinfo_face "><img
+                                            src="{{ context.news_image.url }}"
+                                            width="20"
+                                            height="20" alt=""></span></a>
+                                    <a href="#" target="_blank"><span
+                                            class="subinfo S_txt2">{{ context.editor }}</span></a>
+                                    <span class="subinfo S_txt2">{{ context.create_time|date:'Y-m-d H:i:s' }}</span>
+                                    <span class="subinfo_rgt S_txt2"><em
+                                            class="W_ficon ficon_praised S_ficon W_f16">ñ</em><em class="praised">9</em></span>
+
+                                    <span class="rgt_line W_fr"></span>
+                                    <span class="subinfo_rgt S_txt2"><em
+                                            class="W_ficon ficon_repeat S_ficon W_f16"></em><em class="repeat">5</em></span>
+                                    <span class="rgt_line W_fr"></span>
+                                    <span class="subinfo_rgt S_txt2"><em
+                                            class="W_ficon ficon_forward S_ficon W_f16"></em><em class="forward">1</em>
+                                    </span>
+                                    <script>
+                                    a=Math.ceil(Math.random()*100)
+                                    b=Math.ceil(Math.random()*100)
+                                    c=Math.ceil(Math.random()*100)
+                                    $(".praised").html(a*10)
+                                    $(".repeat").html(b*10)
+                                    $(".forward").html(c*10)
+                                    </script>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    {% endfor %}
+        </div>
+            </div>
+
+        {% csrf_token %}
+
+            <!--右侧内容结束-->
+        </div>
+    </div>
+</section>
+{% endblock body-content %}
+
+{% block bottom-script %}
+              <!-- Swiper JS -->
+    <script src="{% static 'js/swiper.js' %}"></script>
+
+    <!-- Initialize Swiper -->
+            <script>
+
+                var swiper = new Swiper('.swiper-container', {
+                    parallax: true,
+                    pagination: '.swiper-pagination',
+                    nextButton: '.swiper-button-next',
+                    prevButton: '.swiper-button-prev',
+                    paginationClickable: true,
+                    spaceBetween: 30,
+                    centeredSlides: true,
+                    autoplay: 2500,
+                    autoplayDisableOnInteraction: false
+                });
+                {#$(".panel-default:eq(2)".addClass("menu-first-active"))#}
+                $("div .menu-first:eq(2)").addClass("menu-first-active")
+                $("div .menu-first:eq(2)").attr('aria-expanded','true')
+                $("div .menu-first:eq(2)").remove('collapsed')
+                $("div .menu-first:eq(2)>div").addClass('in')
+            </script>
+
+{% endblock bottom-script %}

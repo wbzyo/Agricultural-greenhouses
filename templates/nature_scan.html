@@ -1,0 +1,122 @@
+{% extends 'base_content.html' %}
+{% load static%}
+{% block top-css %}
+ <style type="text/css">
+        .contents{
+            margin-left: 10%;
+            margin-top: 30px;
+
+        }
+        .first, .second, .third, .fourth {
+            display: block;
+        }
+
+        .first {
+            float: left;
+            margin-left: 25px;
+        }
+
+        .second {
+            float: left;
+            margin-left: 50px;
+        }
+
+        .third {
+            float: left;
+            margin-left: 50px;
+        }
+
+        .fourth {
+            float: left;
+            margin-left: 55px;
+
+        }
+
+        .wen_du {
+            color: lightskyblue;
+            font-size: 30px;
+        }
+
+        .shi_du {
+            color: lightskyblue;
+            font-size: 30px;
+        }
+
+        .tan_du {
+            color: lightskyblue;
+            font-size: 30px;
+        }
+
+        .shui_fen {
+            color: lightskyblue;
+            font-size: 30px;
+        }
+
+    </style>
+{% endblock top-css %}
+{% block body-content %}
+<section>
+    <div class="container-fluid">
+        <div class="row ">
+            <!----------------------------------------------------------------------------------------------------->
+            <!--右侧内容开始-->
+            <div class="col-xs-10">
+                <br/>
+                <ol class="breadcrumb">
+                    <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+                    <li class="active">大棚管理 - 环境监测</li>
+                </ol>
+
+                <div class="xuanze" style="margin-left: 15%;margin-top: 50px">
+                <div class="select_place">
+                    <span class="icon-time icon-large"style="font-size: 16px">&nbsp;时间：{{ time }}</span>
+                    <span class="icon-coffee icon-large"style="font-size: 16px">&nbsp;湿度：{{ shidu }}%</span>
+                    <span class="icon-map-marker icon-large"style="font-size: 16px">&nbsp;温度：{{ wendu }}°C</span>
+                </div>
+
+                </div>
+
+
+
+                <div class="contents">
+
+
+                    <div class="second">
+                        <img src="{% static 'img/空气湿度.png' %}">
+                        <P>空气湿度</P>
+                        <P class="shi_du">
+                           {{ shidu }}%
+                        </P>
+                    </div>
+
+                    <div class="fourth">
+                        <img src="{% static 'img/土壤水分.png' %}">
+                        <P>空气温度</P>
+                        <P class="shui_fen">
+
+                            {{ wendu }}°C
+
+                        </P>
+
+                    </div>
+                </div>
+
+            </div>
+            <!--右侧内容结束-->
+        </div>
+    </div>
+</section>
+
+{% endblock body-content %}
+
+{% block bottom-script %}
+<script>
+
+                    $("div .menu-first:eq(3)").addClass("menu-first-active")
+                $("div .menu-first:eq(3)").attr('aria-expanded','true')
+                $("div .menu-first:eq(3)").remove('collapsed')
+                $("div .menu-first:eq(3)>div").addClass('in')
+
+</script>
+
+{% endblock bottom-script %}

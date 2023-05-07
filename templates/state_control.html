@@ -1,0 +1,391 @@
+{% extends 'base_content.html' %}
+{% load static %}
+{% block top-css %}
+    <style type="text/css">
+
+        .contents {
+            margin-left: 10%;
+            margin-top: 100px;
+
+        }
+
+        .first, .second, .third, .fourth {
+            display: block;
+        }
+
+        .first {
+            float: left;
+            margin-left: 25px;
+        }
+
+        .second {
+            float: left;
+            margin-left: 50px;
+        }
+
+        .third {
+            float: left;
+            margin-left: 50px;
+        }
+
+        .fourth {
+            float: left;
+            margin-left: 55px;
+
+        }
+
+        .wen_du {
+            color: lightskyblue;
+            font-size: 30px;
+        }
+
+        .shi_du {
+            color: lightskyblue;
+            font-size: 30px;
+        }
+
+        .tan_du {
+            color: lightskyblue;
+            font-size: 30px;
+        }
+
+        .shui_fen {
+            color: lightskyblue;
+            font-size: 30px;
+        }
+
+    </style>
+
+    <!--弹框设置-->
+    <style type="text/css">
+        .ui-dialog {
+            margin-right: 30px;
+            margin-top: 50px;
+            z-index: 751;
+            box-shadow: 1px 1px 5px #999999;
+        }
+
+        .ui-widget-content {
+            border: 1px solid #aaa;
+            background: rgb(254, 248, 241);
+            color: #222;
+        }
+
+        .ui-widget {
+            font-family: Verdana, Arial, sans-serif;
+            font-size: 1.1em;
+        }
+
+        .ui-dialog {
+            padding: .2em;
+            outline: 0;
+        }
+
+        * {
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+    </style>
+{% endblock top-css %}
+{% block body-content %}
+<section>
+    <div class="container-fluid">
+        <div class="row ">
+            <!--左侧导航结束-->
+            <!----------------------------------------------------------------------------------------------------->
+            <!--右侧内容开始-->
+            <div class="col-xs-10">
+                <br/>
+                <ol class="breadcrumb">
+                    <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+                    <li class="active">大棚管理-灌溉控制</li>
+                </ol>
+
+                <div class="contents">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>当前状态</th>
+                            <th>开关操作</th>
+                            <th>参数设置</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>灌溉控制：自动控制</td>
+
+                            <td class="auto_control"><img class="image1" style="cursor: pointer" src="{% static 'img/kaiguan3.png' %}"><img class="image2" style="cursor: pointer;display: none" src="{% static 'img/kaiguan4.png' %}"></td>
+
+                            <td class="canshu_change"><a href="#" data-toggle="modal" data-target="#myModal">灌溉参数设置</a></td>
+
+                        </tr>
+                        <tr>
+                            <td>灌溉控制：手动控制</td>
+
+                            <td class="peopel_control"><img class="image3" style="cursor: pointer" src="{% static 'img/kaiguan4.png' %}"><img class="image4" style="cursor: pointer;display: none" src="{% static 'img/kaiguan3.png' %}"></td>
+
+                            <td><a href="#">无</a></td>
+
+                        </tr>
+                        <!--<tr>
+                            <th scope="row">2</th>
+                            <td>风机</td>
+                            <td>运行</td>
+                           <td><img src="img/kaiguan3.png" ></td>
+                              <td><a href="#">风机设置</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>卷膜机</td>
+                            <td>停止</td>
+                            <td><img src="img/kaiguan4.png" ></td>
+                              <td><a href="#">卷膜机设置</a></td>
+                        </tr>-->
+                        </tbody>
+                    </table>
+                    <p> &nbsp; </p>
+                    <p> &nbsp; </p>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>阀门位置</th>
+                            <th>土壤含水率深度</th>
+                            <th>生长周期</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>修改计划</th>
+                             <th>删除计划</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% csrf_token %}
+                        {% for control in control_excel %}
+                            <tr>
+                                <th class="planid" scope="row" id="{{ control.id }}">智能灌溉计划{{ control.id }}</th>
+                                <td>{{ control.place }}</td>
+                                <td>土壤含水率{{ control.tu_depth}}CM</td>
+                                <td>{{ control.grow_circle }}</td>
+                                <td>{{ control.start_time }}</td>
+                                <td>{{ control.stop_time }}</td>
+                                <td class="plan_change"><a href="#" data-toggle="modal" data-target="#myModal">修改</a></td>
+                                <td class="shanchu"><a href="#">删除</a></td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+                <!--右侧内容结束-->
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body-content %}
+{% block bottom-script %}
+
+
+       <form method="post" action="statecontrol">
+                    {% csrf_token %}
+{#                <!-- Button trigger modal -->调用模态框#}
+{#           <a href="#" data-toggle="modal" data-target="#myModal" style="margin-left: 62%">#}
+{#               修改资料#}
+{#           </a>#}
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel>
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">灌溉控制</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <h5 class="glyphicon glyphicon-user" aria-hidden="true">&nbsp控制位置：
+                                    <select class="validate[required]" id="place" name="place">
+                                    <option >请选择</option>
+                                    <option >大棚一</option>
+                                    <option >大棚二</option>
+                                    <option >大棚三</option>
+                                </select></h5><br>
+
+                                <h5 class="glyphicon glyphicon-earphone" aria-hidden="true">&nbsp;土壤深度：
+                                    <select id="depth" name="depth">
+                                        <option>请选择</option>
+
+                                        <option>10</option>
+
+                                        <option>20</option>
+                                        <option>40</option>
+                                       </select></h5>
+
+                                <br>
+                                <h5 class="glyphicon glyphicon-home" aria-hidden="true">&nbsp;作物生长周期：<select id="date" name="date">
+                                    <option >请选择</option>
+                                    <option >萌芽期</option>
+                                    <option >展叶期</option>
+                                    <option >开花期</option>
+                                    <option >采收期</option>
+                                    <option >生长期</option>
+                                 </select></h5> <br>
+
+                                <h5 class="glyphicon glyphicon-home" aria-hidden="true">&nbsp;开始时间： <input
+                                        type="datetime-local" name="starttime">
+                                </h5> <br>
+
+                                <h5 class="glyphicon glyphicon-home" aria-hidden="true">&nbsp;结束时间： <input
+                                        type="datetime-local" name="stoptime">
+                                </h5> <br>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="submit" class="btn btn-primary" >保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+
+{#原来的模态框#}
+
+
+{#<div class="ui-dialog"#}
+{#     tabindex="-1" role="dialog"#}
+{#     style="position: absolute; height: auto; width: auto; top: 119px; left: 60%; display: none;"#}
+{#     aria-describedby="ui-id-54" aria-labelledby="ui-id-55">#}
+{#    <div class="ui-dialog-titlebar"><span id="ui-id-55"class="ui-dialog-title">灌溉设置</span>#}
+{#        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
+{#        <button class="ui-button"#}
+{#                role="button" aria-disabled="false" title="close" style="float: right"><span#}
+{#                class="ui-button-icon-primary"></span>#}
+{#            <span class="ui-button-text">close</span></button>#}
+{#    </div>#}
+{#    <div id="ui-id-54" class="ui-dialog-content ui-widget-content"#}
+{#         style="width: auto; min-height: 20px; max-height: none; height: auto;">#}
+{#        <form id="jtable-create-form" class="jtable-dialog-form jtable-create-form"#}
+{#              action="statecontrol" method="post">#}
+{#                       <div class="jtable-input-field-container">#}
+{#                <div class="jtable-input-label">控制位置</div>#}
+{#                <div class="jtable-input jtable-dropdown-input"><select class="validate[required]" id="place"#}
+{#                                                                        name="place">#}
+{#                    <option value="0">请选择</option>#}
+{#                    <option value="1">大棚一</option>#}
+{#                    <option value="2">大棚二</option>#}
+{#                      <option value="3">大棚二</option>#}
+{#                      <option value="4">大棚二</option>#}
+{#                </select></div>#}
+{#            </div>#}
+{#            <div class="jtable-input-field-container">#}
+{#                <div class="jtable-input-label">土壤深度</div>#}
+{#                <div class="jtable-input jtable-custom-input"><select id="depth" name="depth">#}
+{#                    <option value="0">请选择</option>#}
+{#                    <option value="1">土壤含水率20CM</option>#}
+{#                    <option value="2">土壤含水率40CM</option>#}
+{#                </select></div>#}
+{#            </div>#}
+{#             <div class="jtable-input-field-container">#}
+{#                <div class="jtable-input-label">生长周期</div>#}
+{#                <div class="jtable-input jtable-custom-input"><select id="date" name="date">#}
+{#                    <option value="0">请选择</option>#}
+{#                    <option value="1">萌芽期</option>#}
+{#                    <option value="2">展叶期</option>#}
+{#                    <option value="2">开花期</option>#}
+{#                    <option value="2">采收期</option>#}
+{#                    <option value="2">生长期</option>#}
+{#                </select></div>#}
+{#            </div>#}
+{#            <div class="jtable-input-field-container">#}
+{#                <div class="jtable-input-label">开始时间</div>#}
+{#                <input type="datetime-local" name="starttime">#}
+{#            </div>#}
+{#            <div class="jtable-input-field-container">#}
+{#                <div class="jtable-input-label">结束时间</div>#}
+{#               <input type="datetime-local" name="stoptime">#}
+{#            </div>#}
+{#        </form>#}
+{#    </div>#}
+{#    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">#}
+{#        <div class="ui-dialog-buttonset">#}
+{#            <button type="button" class="ui-button"#}
+{#                    role="button" aria-disabled="false"><span class="ui-button-text">取消</span></button>#}
+{#            <button type="submit" id="AddRecordDialogSaveButton"#}
+{#                    class="ui-button" role="button"#}
+{#                    ><span class="ui-button-text">保存</span></button>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#</div>#}
+
+<script>
+
+{% comment %}$('.auto_control').click(function () {
+    $('.image1').toggle(function () {
+        $('.image1').remove();
+        $('.auto_control').append("<img class=\"image1\" src=\"{% static 'img/kaiguan4.png' %}\">");
+    },
+        function () {
+        $('.image1').remove();
+        $('.auto_control').append("<img class=\"image1\" src=\"{% static 'img/kaiguan3.png' %}\">");
+    }
+    );
+});{% endcomment %}
+    $('.image1').click(function () {
+        $('.image1').hide();
+       $('.image2').show();
+
+    });
+
+     $('.image2').click(function () {
+        $('.image2').hide();
+       $('.image1').show();
+    });
+
+    $('.image3').click(function () {
+       $('.image3').hide();
+       $('.image4').show();
+    });
+    $('.image4').click(function () {
+       $('.image4').hide();
+       $('.image3').show();
+    });
+
+    $('.canshu_change').click(function () {
+        $('.ui-dialog').show()
+    });
+
+    $('.plan_change').click(function () {
+        $('.ui-dialog').show()
+    })
+    $('.ui-button-text').click(function () {
+         $('.ui-dialog').hide()
+    })
+    $('.shanchu').click(function (data) {
+        id = $(this).parents('tr').find('.planid').attr('id')
+        //input是标签选择器
+        csrf = $('input[name="csrfmiddlewaretoken"]').val()
+        //组织参数
+        tr = $(this).parents('tr')
+        params = {'id':id,'csrfmiddlewaretoken':csrf}
+        $.post('/control/plan',params,function (data) {
+            if (data.res==3){
+                tr.remove()
+
+            }
+            else {
+                alert(data.errmsg)
+            }
+        })
+
+
+
+    })
+                    $("div .menu-first:eq(3)").addClass("menu-first-active")
+                $("div .menu-first:eq(3)").attr('aria-expanded','true')
+                $("div .menu-first:eq(3)").remove('collapsed')
+                $("div .menu-first:eq(3)>div").addClass('in')
+</script>
+{% endblock bottom-script %}

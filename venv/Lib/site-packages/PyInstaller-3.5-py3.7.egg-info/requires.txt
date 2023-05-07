@@ -1,0 +1,4 @@
+setuptools
+altgraph
+pywin32-ctypes>=0.2.0
+pefile>=2017.8.1

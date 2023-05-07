@@ -1,0 +1,181 @@
+{% extends 'base_content.html' %}
+{% load static %}
+{% block body-content %}
+<section>
+    <div class="container-fluid">
+        <div class="row ">            <!----------------------------------------------------------------------------------------------------->
+            <!--右侧内容开始-->
+            <div class="col-xs-10">
+                <br/>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'user:index' %} "><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+                    <li class="active">大棚管理 - 历史数据</li>
+                </ol>
+
+                  <div class="xuanze" style="margin-left: 15%;margin-top: 30px">
+                {% for i in data %}
+                <div>{{ i.create_time }}</div>
+                {% endfor %}
+                </div>
+                {% csrf_token %}
+
+
+
+                <div class="chart"style="margin-left: 8%;margin-top: 10px">
+
+                    <div class="canvas" style="width: 85%;height: 50%">
+                        <h3 class="text-primary">温度变化折线图</h3>
+                        <canvas id="canvas2" style="width: 99%;height: 100%"></canvas>
+                    </div>
+                    <div class="canvas" style="width: 85%;height: 50%">
+                        <h3 class="text-primary">湿度变化折线图</h3>
+                        <canvas id="canvas3" style="width: 99%;height: 100%"></canvas>
+
+                    </div>
+                </div>
+                <div style="margin-left: 15%">
+                    <h2>数据导出</h2>
+                    开始时间：<input type="date" class="bday1">
+                    <br>
+                    <br>
+                    结束时间：<input type="date" class="bday2">
+                    <br>
+
+                    <a id="forExport" style="visibility: hidden" href="#" download="数据导出.xls"></a>
+                    <button type="button" id="btn" style="margin-left: 13%;margin-top: 10px;" class="tijiao">导出为excel</button>
+                </div>
+            </div>
+
+            <!--右侧内容结束-->
+        </div>
+    </div>
+</section>
+{% endblock body-content %}
+
+{% block bottom-script %}
+    <script src="{% static 'js/Chart.js' %}"></script>
+<script>
+    {#/*Chart的数据*/28条数据#}
+    function lineChart() {
+
+
+        timelist = [];
+        shidulist = [];
+        csrf = $('input[name="csrfmiddlewaretoken"]').val();
+        params = {
+            'csrfmiddlewaretoken': csrf
+        };
+
+         $.ajaxSettings.async = false;
+
+        $.post('/datas/history',params,function (data) {
+          {#alert(data.time_list)#}
+          {#          for (i = 0; i < 28;i++) {#}
+          {#              times = data.time_list[i]#}
+          {#              time_list.append(times)#}
+          {#              shidu = data.datas.tu_shidu#}
+          {#              shidu_list.append(shidu)#}
+          {#          }#}
+            air_time_list = data.air_time_list;
+            air_wendu_list = data.air_wendu_list;
+            air_shidu_list = data.air_shidu_list;
+        });
+        $.ajaxSettings.async = true;
+         var ctx2 = document.getElementById('canvas2').getContext("2d");
+        ctx2.height = 500;
+        var data2 = {
+            labels: air_time_list,
+            datasets: [{
+                label: "qixiangwendu",
+                fillColor: "rgba(200,200,200,0.2)",
+                strokeColor: "rgba(100,200,200,1)",
+                pointColor: "rgba(200,200,100,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(200,200,200,1)",
+
+                data: air_wendu_list
+            }]
+        };
+        var salesVolumeChart2 = new Chart(ctx2).Line(data2,{
+            scaleOverride :true ,   //是否用硬编码重写y轴网格线
+            scaleSteps : 15,        //y轴刻度的个数
+            scaleStepWidth : 3,   //y轴每个刻度的宽度
+            scaleStartValue : -15  //y轴的起始值
+        });
+         var ctx3 = document.getElementById('canvas3').getContext("2d");
+        ctx3.height = 500;
+        var data3 = {
+            labels: air_time_list,
+            datasets: [{
+                label: "气象温度",
+                fillColor: "rgba(200,200,200,0.2)",
+                strokeColor: "rgba(100,200,200,1)",
+                pointColor: "rgba(200,200,100,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(200,200,200,1)",
+                data: air_shidu_list
+            }]
+        };
+        var salesVolumeChart3 = new Chart(ctx3).Line(data3,{
+            scaleOverride :true ,   //是否用硬编码重写y轴网格线
+            scaleSteps : 9,        //y轴刻度的个数
+            scaleStepWidth : 8,   //y轴每个刻度的宽度
+            scaleStartValue : 0   //y轴的起始值
+
+        });
+
+    }
+
+    // 启动
+    setTimeout(function() {
+        // 避免IE7-8 调用getContext报错，使用setTimeout
+        lineChart()
+
+    }, 0)
+    if (/Mobile/i.test(navigator.userAgent)) {
+        //针对手机，性能做一些降级，看起来就不会那么卡了
+        Chart.defaults.global.animationSteps = Chart.defaults.global.animationSteps / 6
+        Chart.defaults.global.animationEasing = "linear"
+    }
+
+</script>
+
+    <script>{% comment %}数据导出{% endcomment %}
+
+        window.onload = function () {
+            var btn = document.getElementById('btn');
+            btn.onclick = function () {
+                start_time = $('.bday1').val()
+                stop_time = $('.bday2').val()
+
+                csrf = $('input[name="csrfmiddlewaretoken"]').val()
+                params = {
+                    'csrfmiddlewaretoken': csrf,
+                    'start_time':start_time,
+                    'stop_time':stop_time
+                }
+                {#alert(start_time)#}
+                $.ajaxSettings.async = false
+                $.post('/datas/to_excel',params,function (data) {
+                    //BOM的方式解决EXCEL乱码问题
+                    var BOM = '\uFEFF';
+                    csvString = BOM + data;
+                    var a = document.createElement('a');
+                    a.href = 'data:attachment/csv,' + encodeURI(csvString);
+                    a.target = '_blank';
+                    a.download = start_time+'-'+stop_time+'.csv';
+                    document.body.appendChild(a); // Firefox 中必须这么写，不然不会起效果
+                    a.click();
+                    document.body.removeChild(a);
+                })
+                $.ajaxSettings.async = true
+            };
+        };
+                            $("div .menu-first:eq(3)").addClass("menu-first-active")
+                $("div .menu-first:eq(3)").attr('aria-expanded','true')
+                $("div .menu-first:eq(3)").remove('collapsed')
+                $("div .menu-first:eq(3)>div").addClass('in')
+    </script>
+{% endblock bottom-script %}

@@ -1,0 +1,34 @@
+{% extends 'base_content.html' %}
+
+{% load static %}
+
+{% block body-content %}
+<section>
+    <div class="container-fluid">
+        <div class="row ">
+            <!--左侧导航结束-->
+            <!----------------------------------------------------------------------------------------------------->
+            <!--右侧内容开始-->
+            <div class="col-xs-10">
+                <br/>
+                <ol class="breadcrumb">
+                    <li class="active"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</li>
+                </ol>
+                <h1 class="text-center text-white">绿缘系统</h1>
+                <div style="margin-left: 10%">
+                  <iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=21" width="680" height="300" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+                </div>
+            </div>
+            <!--右侧内容结束-->
+        </div>
+    </div>
+</section>
+    <script>
+                    $("div .menu-first:eq(0)").addClass("menu-first-active")
+
+</script>
+  {% endblock body-content %}
+
+
+
