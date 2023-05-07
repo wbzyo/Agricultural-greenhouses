@@ -4,17 +4,21 @@
 
 
 
-![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject@main/sign.png)
+![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject/sign.png)
 
-![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject@main/login.png)
+![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject/login.png)
 
-![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject@main/talk.png)
+![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject/talk.png)
 
-![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject@main/env.png)
+![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject/env.png)
 
-![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject@main/index.png)
+![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject/index.png)
 
-![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject@main/text.png)
+![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject/line.png)
 
-![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject@main/line.png)
+![](https://cdn.jsdelivr.net/gh/wbzyo/ziproject/text.png)
+
+
+
+
 
